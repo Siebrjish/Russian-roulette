@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Luck Chamber Game</title>
+
+<style>
+body{
+    background:#121212;
+    color:white;
+    font-family:Arial;
+    text-align:center;
+}
+
+.container{
+    margin-top:40px;
+}
+
+button{
+    padding:12px 20px;
+    font-size:18px;
+    cursor:pointer;
+    margin:5px;
+}
+
+.scoreboard{
+    margin-top:20px;
+    font-size:20px;
+}
+
+.history{
+    margin-top:25px;
+    max-width:600px;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:left;
+}
+
+.spin{
+    animation:spin 0.5s ease;
+}
+
+@keyframes spin{
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.safe{
+    color:lime;
+}
+
+.out{
+    color:red;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1 id="title">🎲 Luck Chamber Game</h1>
+
+<select id="mode">
+<option value="6">6 Chambers</option>
+<option value="8">8 Chambers</option>
+<option value="10">10 Chambers</option>
+</select>
+
+<h2>Pick Your Number</h2>
+
+<div id="buttons"></div>
+
+<div class="scoreboard">
+Player Survived: <span id="playerScore">0</span><br>
+AI Survived: <span id="aiScore">0</span>
+</div>
+
+<h2 id="result"></h2>
+
+<div class="history">
+<h3>Round History</h3>
+<div id="history"></div>
+</div>
+
+</div>
+
+<script>
+
+let playerScore = 0;
+let aiScore = 0;
+let round = 1;
+
+createButtons();
+
+document.getElementById("mode").addEventListener("change", createButtons);
+
+function createButtons(){
+
+    let chambers = Number(document.getElementById("mode").value);
+
+    let html = "";
+
+    for(let i=1;i<=chambers;i++){
+        html += `<button onclick="play(${i})">${i}</button>`;
+    }
+
+    document.getElementById("buttons").innerHTML = html;
+}
+
+function beep(freq){
+
+    let ctx = new AudioContext();
+
+    let osc = ctx.createOscillator();
+
+    osc.frequency.value = freq;
+
+    osc.connect(ctx.destination);
+
+    osc.start();
+
+    osc.stop(ctx.currentTime + 0.15);
+}
+
+function play(playerChoice){
+
+    let chambers = Number(document.getElementById("mode").value);
+
+    let aiChoice = Math.floor(Math.random()*chambers)+1;
+
+    let chamber = Math.floor(Math.random()*chambers)+1;
+
+    let playerSafe = playerChoice !== chamber;
+
+    let aiSafe = aiChoice !== chamber;
+
+    if(playerSafe){
+        playerScore++;
+        beep(600);
+    }else{
+        beep(200);
+    }
+
+    if(aiSafe){
+        aiScore++;
+    }
+
+    document.getElementById("playerScore").textContent = playerScore;
+    document.getElementById("aiScore").textContent = aiScore;
+
+    let result = `
+    Round ${round}<br>
+    You picked ${playerChoice}<br>
+    AI picked ${aiChoice}<br>
+    Random chamber: ${chamber}<br><br>
+    You: ${playerSafe ? "✅ Safe" : "❌ Out"}<br>
+    AI: ${aiSafe ? "✅ Safe" : "❌ Out"}
+    `;
+
+    let title = document.getElementById("title");
+    title.classList.add("spin");
+
+    setTimeout(()=>{
+        title.classList.remove("spin");
+    },500);
+
+    document.getElementById("result").innerHTML = result;
+
+    let history = document.getElementById("history");
+
+    history.innerHTML =
+    `<div class="${playerSafe?'safe':'out'}">
+    Round ${round} :
+    You(${playerChoice}) |
+    AI(${aiChoice}) |
+    Chamber(${chamber})
+    </div>` + history.innerHTML;
+
+    round++;
+}
+
+</script>
+
+</body>
+</html>
