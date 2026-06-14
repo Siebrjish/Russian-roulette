@@ -1,85 +1,195 @@
-let wins = 0;
-let losses = 0;
-let streak = 0;
+```javascript
+let wins = Number(localStorage.getItem("wins")) || 0;
+let losses = Number(localStorage.getItem("losses")) || 0;
+let streak = Number(localStorage.getItem("streak")) || 0;
 
-const aiNames = ["Atlas","Nova","Echo","Sigma"];
+const enemies = ["Nova","Echo","Atlas","Sigma"];
 
-generateCrystals();
-updateUI();
+let playerAlive = true;
+let enemyAlive = true;
 
-function generateCrystals(){
-let html = "";
+let deck = [];
 
-for(let i=1;i<=6;i++){
-html += `<button class="crystal" onclick="pick(${i})">💎</button>`;
+newGame();
+
+function newGame(){
+
+deck = [];
+
+for(let i=1;i<=20;i++){
+deck.push(i);
 }
 
-document.getElementById("crystalContainer").innerHTML = html;
+let poisonIndex =
+Math.floor(Math.random()*20);
+
+deck[poisonIndex] = "POISON";
+
+playerAlive = true;
+enemyAlive = true;
+
+updateStats();
+
+document.getElementById("result").innerHTML =
+"Choose your first card...";
+
 }
 
-function pick(choice){
 
-let bad = Math.floor(Math.random()*6)+1;
+function drawCard(choice){
 
-let ai = aiNames[Math.floor(Math.random()*aiNames.length)];
-document.getElementById("aiName").innerText = ai;
+if(!playerAlive || !enemyAlive){
+return;
+}
 
-if(choice === bad){
+if(deck.length===0){
+
+document.getElementById("result").innerHTML =
+"🏆 No poison card appeared.";
+
+return;
+
+}
+
+let enemy =
+enemies[Math.floor(Math.random()*enemies.length)];
+
+document.getElementById("enemyName").innerText =
+enemy;
+
+
+let playerCard =
+deck.splice(
+Math.floor(Math.random()*deck.length),
+1
+)[0];
+
+
+if(playerCard==="POISON"){
+
+playerAlive=false;
+
 losses++;
-streak = 0;
-document.getElementById("result").innerText = "❌ Corrupted Crystal!";
+streak=0;
+
+document.getElementById("result").innerHTML =
+"☠️ You found the Poison Card!";
+
+document.getElementById("enemyText").innerText =
+enemy+" wins the duel.";
+
+saveData();
+updateStats();
+
+return;
+
 }
-else{
+
+
+if(deck.length>0){
+
+let enemyCard =
+deck.splice(
+Math.floor(Math.random()*deck.length),
+1
+)[0];
+
+
+if(enemyCard==="POISON"){
+
+enemyAlive=false;
+
 wins++;
 streak++;
-document.getElementById("result").innerText = "✅ Safe Crystal!";
+
+document.getElementById("result").innerHTML =
+"🎉 "+enemy+" drew the Poison Card!";
+
+document.getElementById("enemyText").innerText =
+"You survive.";
+
+saveData();
+updateStats();
+
+return;
+
 }
 
-addHistory(choice,bad);
-updateUI();
-checkAchievements();
-save();
 }
 
-function updateUI(){
 
-document.getElementById("wins").innerText = wins;
-document.getElementById("losses").innerText = losses;
-document.getElementById("streak").innerText = streak;
+addHistory(playerCard);
 
-let total = wins + losses;
-let rate = total ? ((wins/total)*100).toFixed(1) : 0;
+document.getElementById("result").innerHTML =
+"✅ Both players survived.";
 
-document.getElementById("rate").innerText = rate + "%";
+document.getElementById("enemyText").innerText =
+enemy+" continues the duel.";
+
+saveData();
+updateStats();
+
 }
 
-function addHistory(c,b){
-document.getElementById("history").innerHTML =
-`You: ${c} | Bad: ${b}<br>` +
-document.getElementById("history").innerHTML;
+
+
+function addHistory(card){
+
+let history =
+document.getElementById("history");
+
+history.innerHTML =
+
+"Round survived. Cards left: "
+
++ deck.length +
+
+"<br>"
+
++ history.innerHTML;
+
 }
 
-function checkAchievements(){
 
-let a = "";
 
-if(streak>=5) a += "<div class='achievement'>🏆 Survivor</div>";
-if(streak>=10) a += "<div class='achievement'>🔥 Lucky Devil</div>";
-if(streak>=20) a += "<div class='achievement'>👑 Wizard</div>";
+function updateStats(){
 
-document.getElementById("achievements").innerHTML = a;
+document.getElementById("wins").innerText =
+wins;
+
+document.getElementById("losses").innerText =
+losses;
+
+document.getElementById("streak").innerText =
+streak;
+
 }
 
-function save(){
-localStorage.setItem("w",wins);
-localStorage.setItem("l",losses);
-localStorage.setItem("s",streak);
+
+
+function saveData(){
+
+localStorage.setItem("wins",wins);
+localStorage.setItem("losses",losses);
+localStorage.setItem("streak",streak);
+
 }
+
+
 
 function resetProgress(){
-wins=0; losses=0; streak=0;
+
 localStorage.clear();
-updateUI();
+
+wins=0;
+losses=0;
+streak=0;
+
+updateStats();
+
 document.getElementById("history").innerHTML="";
-document.getElementById("achievements").innerHTML="";
+
+newGame();
+
 }
+```

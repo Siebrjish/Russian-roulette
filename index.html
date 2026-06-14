@@ -1,58 +1,88 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crystal Vault Ultimate</title>
+<title>Poison Card Duel</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-<div id="particles"></div>
 
 <div class="container">
 
-<h1>💎 Crystal Vault Ultimate</h1>
-
-<div class="themeBox">
-<select id="themeSelect">
-<option value="purple">Purple</option>
-<option value="ocean">Ocean</option>
-<option value="matrix">Matrix</option>
-<option value="sunset">Sunset</option>
-</select>
-</div>
+<h1>🃏 Poison Card Duel</h1>
 
 <div class="stats">
-<div class="card">Wins <h2 id="wins">0</h2></div>
-<div class="card">Losses <h2 id="losses">0</h2></div>
-<div class="card">Streak <h2 id="streak">0</h2></div>
-<div class="card">Win Rate <h2 id="rate">0%</h2></div>
+
+<div class="box">
+Wins
+<h2 id="wins">0</h2>
+</div>
+
+<div class="box">
+Losses
+<h2 id="losses">0</h2>
+</div>
+
+<div class="box">
+Streak
+<h2 id="streak">0</h2>
+</div>
+
 </div>
 
 <div class="aiBox">
-AI: <span id="aiName">Atlas</span>
-<div id="aiText">Calculating luck...</div>
+Opponent: <span id="enemyName">Nova</span>
+<p id="enemyText">Ready for the duel...</p>
 </div>
 
-<h2>Choose A Crystal</h2>
-<div id="crystalContainer"></div>
+<h2>Draw a Card</h2>
 
-<h2 id="result">Begin your journey.</h2>
+<div id="cards">
 
-<h3>Achievements</h3>
-<div id="achievements"></div>
+<button class="card" onclick="drawCard(1)">
+🂠
+</button>
+
+<button class="card" onclick="drawCard(2)">
+🂠
+</button>
+
+<button class="card" onclick="drawCard(3)">
+🂠
+</button>
+
+<button class="card" onclick="drawCard(4)">
+🂠
+</button>
+
+<button class="card" onclick="drawCard(5)">
+🂠
+</button>
+
+<button class="card" onclick="drawCard(6)">
+🂠
+</button>
+
+</div>
+
+<h2 id="result">
+Choose your fate...
+</h2>
 
 <h3>History</h3>
+
 <div id="history"></div>
 
-<button onclick="resetProgress()">Reset Progress</button>
+<button onclick="resetProgress()">
+Reset Progress
+</button>
+
+<script src="script.js"></script>
 
 </div>
-
-<script src="particles.js"></script>
-<script src="script.js"></script>
 
 </body>
 </html>
+```

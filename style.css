@@ -1,3 +1,4 @@
+```css
 *{
 margin:0;
 padding:0;
@@ -5,13 +6,12 @@ box-sizing:border-box;
 }
 
 body{
-font-family:Arial;
+font-family:Arial,sans-serif;
+background:linear-gradient(-45deg,#111827,#1e293b,#312e81,#581c87);
+background-size:400% 400%;
+animation:bgMove 12s ease infinite;
 color:white;
 min-height:100vh;
-background:linear-gradient(-45deg,#4c1d95,#312e81,#1e1b4b,#581c87);
-background-size:400% 400%;
-animation:bgMove 12s infinite ease-in-out;
-overflow-x:hidden;
 }
 
 @keyframes bgMove{
@@ -22,7 +22,7 @@ overflow-x:hidden;
 
 .container{
 width:90%;
-max-width:900px;
+max-width:1000px;
 margin:auto;
 padding:20px;
 text-align:center;
@@ -30,76 +30,99 @@ text-align:center;
 
 h1{
 font-size:3rem;
-margin-bottom:20px;
+margin-bottom:25px;
 }
 
 .stats{
 display:flex;
 justify-content:center;
-flex-wrap:wrap;
 gap:15px;
-margin-bottom:20px;
+flex-wrap:wrap;
+margin-bottom:25px;
 }
 
-.card{
+.box{
+width:150px;
+padding:20px;
 background:rgba(255,255,255,0.1);
-backdrop-filter:blur(10px);
-padding:15px;
-border-radius:15px;
-width:140px;
+backdrop-filter:blur(15px);
+border-radius:20px;
+box-shadow:0 0 15px rgba(255,255,255,0.1);
 }
 
 .aiBox{
-margin:20px 0;
-padding:15px;
+margin:25px 0;
+padding:20px;
 background:rgba(255,255,255,0.1);
-border-radius:15px;
+border-radius:20px;
 }
 
-#crystalContainer{
+#cards{
 display:flex;
 justify-content:center;
 flex-wrap:wrap;
-gap:10px;
-margin:20px 0;
+gap:20px;
+margin:30px 0;
 }
 
-.crystal{
-width:80px;
-height:80px;
-font-size:30px;
+.card{
+width:100px;
+height:140px;
+font-size:50px;
 border:none;
-border-radius:15px;
 cursor:pointer;
+border-radius:20px;
 background:rgba(255,255,255,0.1);
-transition:0.2s;
+color:white;
+transition:0.3s;
 }
 
-.crystal:hover{
-transform:scale(1.1);
+.card:hover{
+transform:translateY(-10px) scale(1.05);
 }
 
 #result{
-font-size:1.5rem;
-margin:15px 0;
+margin-top:20px;
+margin-bottom:30px;
 }
 
 #history{
-max-height:200px;
-overflow:auto;
-padding:10px;
-background:rgba(255,255,255,0.05);
-border-radius:10px;
+max-height:250px;
+overflow-y:auto;
+padding:20px;
+background:rgba(255,255,255,0.08);
+border-radius:20px;
+margin-bottom:25px;
 }
 
-.achievement{
-color:gold;
-margin:5px;
+button{
+padding:15px 25px;
+font-size:1rem;
+border:none;
+border-radius:15px;
+cursor:pointer;
+transition:.3s;
 }
 
-#particles{
-position:fixed;
-width:100%;
-height:100%;
-z-index:-1;
+button:hover{
+transform:scale(1.05);
 }
+
+@media(max-width:768px){
+
+h1{
+font-size:2rem;
+}
+
+.card{
+width:80px;
+height:110px;
+font-size:40px;
+}
+
+.box{
+width:120px;
+}
+
+}
+```
